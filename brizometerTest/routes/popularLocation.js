@@ -5,7 +5,7 @@ var mysqlDb = require('./../database');
 /* GET top 5 popular Locations. */
 router.get('/', function(req, res, next) {
     db = mysqlDb.get();
-    db.query('SELECT count(city_id) as top_5 FROM user_city group by city_id order by top_5 desc', function (error, results, fields) {
+    db.query('SELECT ci.name, count(us.city_id) as popularity FROM user_city us join cities ci on us.city_id = ci.id group by us.city_id order by popularity desc limit 0,5', function (error, results, fields) {
         if (error) {
             res.status(500).json(error);
         }
